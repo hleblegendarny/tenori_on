@@ -1,0 +1,65 @@
+)I am here to initilize asset folder!!!!!!!!!!!!! Yes!!!!!!!!! Me!!!!!!!!!!! I'm very helpful!!!!!!!!!!!!! I'm greates file in whole world!!!!!!!!!!!!!!! Me!!!!!!!!!!!!!!)
+
+[22:34] rewrited __tostring function by AI:
+```lua
+function Class:__tostring()
+   local str = "{\n\t%sparent: {\n\t\t%s\n\t\t}\n}" 
+   local buffer = ""
+   local meta_buffer = ""
+   local pair = ""
+   for k,v in pairs(self) do
+    if type(v) == "nil" then pair = k.." : nil"
+    elseif type(v) == "function" then pair = k..": function"
+    elseif type(v) == "table" then pair = k.." : table"
+    else pair = k.." : "..v end
+    buffer = buffer..pair..", \n\t"
+   end
+   for k,v in pairs(getmetatable(self)) do
+    if type(v) == "nil" then pair = k.." : nil"
+    elseif type(v) == "function" then pair = k..": function"
+    elseif type(v) == "table" then pair = k.." : table"
+    else pair = k.." : "..v end
+    meta_buffer = meta_buffer..pair..", \n\t\t"
+   end
+   if meta_buffer ~= "" then meta_buffer = meta_buffer:sub(1,-5) end
+   return string.format(str, buffer, meta_buffer)
+end
+```
+Suggested(Depricated 'cuz to many unnecesary info):
+```lua
+function Class:__tostring()
+   local function tableToString(t, indent, visited)
+       if visited[t] then
+           return "{...}"  -- Обработка циклических ссылок
+       end
+
+       visited[t] = true  -- Отметить таблицу как посещенную
+       local str = "{\n"
+       local newIndent = indent .. "\t"
+
+       for k, v in pairs(t) do
+           local pair = ""
+           if type(v) == "nil" then
+               pair = string.format("%s%s : nil", newIndent, k)
+           elseif type(v) == "function" then
+               pair = string.format("%s%s : function", newIndent, k)
+           elseif type(v) == "table" then
+               pair = string.format("%s%s : %s", newIndent, k, tableToString(v, newIndent, visited))
+           else
+               pair = string.format("%s%s : %s", newIndent, k, tostring(v))
+           end
+           str = str .. pair .. ",\n"
+       end
+       
+       visited[t] = nil  -- Удалить отметку посещенной таблицы
+       return str .. indent .. "}"
+   end
+
+   local str = "{\n\t%sparent: {\n\t\t%s\n\t\t}\n}"
+   local visited = {}
+   local buffer = tableToString(self, "\t", visited)
+   local meta_buffer = tableToString(getmetatable(self), "\t\t", visited)
+   
+   return string.format(str, buffer, meta_buffer)
+end
+```
