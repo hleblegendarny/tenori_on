@@ -1,35 +1,52 @@
-    )tenori_on project)
-)
+###    tenori_on project
+
  Вместо экспорта в аудио формат(.ogg, .mp3, .flac, .wav, etc.) я решил что будет удобнее и проще экспортировать в некоторый объект паттерна, 
  который будет загружаться и использоваться/звучать благодаря моей tenori-on бибилиотеки, т.е. любая придуманная в этом приложении композиция сможет быть сыграна в любой другой игре
  при поддерки местной tenori_on библиотеки и соответствующей реализации её.
  Более визуальный пример:
- 【0】【0】【0】【0】       {1,1,1,1}
- 【 】【 】【 】【0】 = 》  {0,0,0,1} => pattern
- 【 】【0】【 】【 】 = 》  {0,1,0,0} =>   map
- 【0】【 】【 】【 】       {1,0,0,0}
+
+     【0】【0】【0】【0】       {1,1,1,1}
+     【 】【 】【 】【0】 = 》  {0,0,0,1} => pattern
+     【 】【0】【 】【 】 = 》  {0,1,0,0} =>   map
+     【0】【 】【 】【 】       {1,0,0,0}
 
 
-Structure of pattern:
-    (main) author = "HlebLegendarny" -- as always :)
+
+## Structure of pattern:
+    (main) author = "HlebLegendarny",
+    ^ as always :)
+
     (main) name = "Name of song",
+    
+    (main) description = "description of song",
+    
     (main) bpm = 69,
-    (main) duration = 120, -- in seconds
-    (main) loop = true,
-    (main) audio_data = {path_to_data_or_data,path_to_data_or_data1,path_to_data_or_data2,path_to_data_or_data3}, --data for each track(for example there are four tracks)
-    (main) audio_map = 
-    {
-    {1,1,1,1},
-    {0,0,0,1},
-    {0,1,0,0},
-    {1,0,0,0}
-    },
-    (opt) automotation_data = {1 = instance_of_effect, 2 = instance_of_effect, 3 = instance_of_effect, 4 = instance_of_effect},
-    --^one or banch of numerous effects like 1 is reverb 2 is echo etc.
-    (opt) automatation_map = {2,0,1,3} -- using automotation_data to
+    (main) beats = 120,
+    (main) duration = beats/bpm,
 
-    на данный момент у меня на эксперимент 7 бибилиотек и 1 непосредственна для разработки:
-        ==========
+    (main) loop = true,
+    
+    (main) audio_data = {data,data1,data2,data3}, 
+    ^ data for each track(for example there are four tracks)
+    
+    (main) audio_map = 
+            {
+                {1,1,1,1},
+                {0,0,0,1},
+                {0,1,0,0},
+                {1,0,0,0}
+            },
+    
+    (opt) metre = "4/4",
+    ^ for offset reasons(??? like перекрёстный ритм)
+    
+    (opt) automotation_data = {effect, effect1, effect2, effect3},
+    ^ none or banch of numerous effects like 1 is reverb 2 is echo etc.
+    (opt) automatation_map = {2,0,1,3} 
+    ^ using automotation_data to maping tracks
+
+на данный момент у меня на эксперимент 7 бибилиотек и 1 непосредственна для разработки:
+            
         общие:
             * class - собственный микро-класс для ООП с поддержкой вывода в дебаг
             ^ lib/common/class.lua
@@ -56,4 +73,3 @@ Structure of pattern:
         для визуала:
             * gooi - удобная ui библиотека с самопровозглашенной поддержкой мобильных устройств 
             ^ https://github.com/gustavostuff/gooi/wiki
-)

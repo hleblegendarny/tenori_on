@@ -14,6 +14,18 @@ local PatternExample = {
     name = "example song",
     author = "HlebLegendarny",
     description = "manual example of pattern",
-    
+    bpm = 120,
+    beats = 1,
+    loop = true,
+    audio_data = {"hit-hat","clap","snare","kick"},
+    audio_map =
+    {
+        {0,1,0,1},
+        {1,0,1,0},
+        {0,1,0,1},
+        {1,0,1,0}
+    }
 }
+PatternExample.duration = PatternExample.beats/PatternExample.bpm -- formula
+
 return TenorionEnigne
