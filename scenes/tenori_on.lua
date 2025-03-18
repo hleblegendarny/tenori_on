@@ -1,5 +1,5 @@
 local Class = require "lib.common.class"
-require "lib.visual.gooi.gooi"
+require "lib.visual.goopie"
 local TenoriOnScene = Class:extend()
 -- attributes
 TenoriOnScene.timer_limit = 30
@@ -43,7 +43,6 @@ function TenoriOnScene:mousepressed(x,y,id)
 end
 function TenoriOnScene:mousereleased(x,y,id)
     gooi.released(id,x,y)
-    print(TenoriOnScene)
 end
 function TenoriOnScene:keypressed(k)
     if k == "escape" then gooi.confirm({text = "Gaddem!", ok = function () love.event.quit() end}) end
